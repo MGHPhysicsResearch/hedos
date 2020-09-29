@@ -6,6 +6,9 @@ from functools import reduce
 from matplotlib.cbook import flatten
 from blooddvh import CompartmentModel
 
+"""
+Blood distributions over compartment organ
+"""
 class BloodDistribution:
     __slots__ = ["df", "name", "volume", "dt", "tt", "ttd", "mtt"]
     def __init__(self):
@@ -26,9 +29,9 @@ class BloodDistribution:
         
         t  = time.process_time()
         for i in range(nb_samples) :
-            start        = self.name[ self.volume.searchsorted( np.random.uniform() ) ]
-            self.df.iloc[i]   = markov.walk(nb_steps, start, output_indices=True) #seed can be assigned too.
-            elapsed_time = time.process_time() - t
+            start           = self.name[ self.volume.searchsorted( np.random.uniform() ) ]
+            self.df.iloc[i] = markov.walk(nb_steps, start, output_indices=True) #seed can be assigned too.
+            elapsed_time    = time.process_time() - t
         print("time to generate blood distribution", elapsed_time)
 
     def save_blood_distribution(self, excel_file, tab_name):
@@ -48,6 +51,7 @@ class BloodDistribution:
     def read_from_excel(self, f_name, s_name, h_name="master"):
         """
         Read blood distribution from Excel file
+        TODOs: volume setup
         """
         self.df   = pd.read_excel(f_name, sheet_name=s_name)
         header    = pd.read_excel(f_name, sheet_name=h_name, header=None, index_col=0)
@@ -88,5 +92,3 @@ class BloodDistribution:
             self.tt.append( t )
             self.ttd.append( l )
             self.mtt.append( [np.mean(l), np.std(l)] )
-
-    #def apply(time_range, op): op is operation (function)
