@@ -25,6 +25,11 @@ $ ipython3 -pylab
 
 #### 1. Load python module
 
+Four modules are developed for this project. Their relationship look like following image.
+CompartmentModel reads in organ's transition flow and generate transition network.
+BloodDistribution receives Markov model from CompartmentModel and produces blood particle paths. It can save the generated paths and read back.
+tDVH stores DVH as a function of time.
+bDVH computes blood dose by applying tDVH to BloodDistribution.
 <img src="figures/diagram.png">
 
 ```python
@@ -36,7 +41,7 @@ from blooddvh import bDVH
 
 ```
 
-#### 1. Create a compartment model from an Excel
+#### 2. Create a compartment model from an Excel
 ```python
 sample_size  = 100 
 time_per_step  = 1  # sec
@@ -45,14 +50,14 @@ model = CompartmentModel("input/ICRP89_compartment_model.xlsx", "male", vol=5.3,
 
 ```
 
-#### 2. Generate Blood distribution using Markov chain
+#### 3. Generate Blood distribution using Markov chain
 ```python
 blood = BloodDistribution()
 blood.generate_from_markov(model.markov, model.name, model.volume, time_per_step, sample_size, steps_per_min)
 
 ```
 
-#### 3. Create a time-dependent DVH
+#### 4. Create a time-dependent DVH
 
 ```python
 dose = tDVH()
@@ -61,7 +66,7 @@ dose.add( 10, None)        #next  10 sec, no dose
 dose.add( 10, lambda x: 5) #next  10 sec, 5 Gy uniform
 ```
 
-#### 4. Apply tDVH to blood path
+#### 5. Apply tDVH to blood path
 ```python
 model.name  # to choose an organ where the dose is delivered, 0 : brain, 19: liver
 blood_dose = bDVH()
@@ -70,3 +75,14 @@ hist(blood_dose.dose) # Draw your blood DVH (differential)
 ```
 
 <img src="figures/getting_started_results.png">
+
+
+## Team
+- Jungwook Shin
+- Stella Xing
+- Clemens Grassberger
+- Harald Paganetti
+
+## Acknowledgements
+- R01
+- R21
