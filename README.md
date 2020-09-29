@@ -3,16 +3,15 @@ Blood DVH
 
 ## Installation
 
-Install dependent packages
-
-```bash
-$ pip3 install -r requirements.txt
-```
-
 Checkout the python source code
 ```bash
 $ git clone https://github.com/mghro/blood-dvh.git git
 
+```
+Install dependent packages
+
+```bash
+$ pip3 install -r requirements.txt
 ```
 
 ## Getting started
