@@ -30,7 +30,7 @@ class bDVH:
         self.dose = np.zeros( blood_distribution.df.shape[0])
 
         # [t0, t1] : time window to select blood particles.
-        T0   = T1 = beam_start
+        T0 = T1 = beam_start
         for dvh_id in range( np.shape(time_dependent_dvh.dvh)[1]) :
             acc_t  = time_dependent_dvh.dvh[0][dvh_id] #accumulated time
             dvh_f  = time_dependent_dvh.dvh[1][dvh_id] #dvh function in time-interval
@@ -42,7 +42,8 @@ class bDVH:
             # update upper limit of time-window
             T1 = beam_start + acc_t
             dT = (T1 - T0)
-            #print("T0, T1, dT", T0, T1, dT)
+
+            # print("T0, T1, dT", T0, T1, dT)
             # find column index of blood distribution for given time-window
             c0 = blood_distribution.df.columns.searchsorted(T0, side='right') - 1 
             c1 = blood_distribution.df.columns.searchsorted(T1, side='left') 

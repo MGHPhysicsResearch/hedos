@@ -4,6 +4,7 @@ import time
 #from operator import itemgetter
 from functools import reduce
 from matplotlib.cbook import flatten
+from scipy import interpolate
 
 """
 Time-dependent DVH class consisting of dT and DVH
@@ -32,18 +33,21 @@ class tDVH:
         beam_on_time : delivery time of this dvh time. Time is relative to beam start
         dvh_function : DVH function (lambda or intpl1d)
         """
-        stop_time = 0.0
-        if self.dvh[0].size != 0:
-            stop_time = self.dvh[0][-1]
+        stop_time = 0.0 if self.dvh[0].size == 0 else self.dvh[0][-1]
             
         self.dvh[0] = np.append(self.dvh[0], stop_time + beam_on_time)
         self.dvh[1].append(dvh_function)
     
-    def add_csv(self, beam_on_time, dvh_file):
+    def add_array(self, beam_on_time, dvh_points=np.array([])):
         """
         Parameters
         beam_on_time : delivery time of this dvh
-        dvh_file     : a CSV file with DVH curve or DataFrame ?
+        2d-ndarray   : 2D- dose and probability ( max = 1.0 ), x-axis dose : dose (Gy), y-axis : volume
         """
-        
-        pass
+
+        if dvh_points.shape != (0,):
+            v2d = interpolate.interp1d(dvh_points[0:,1]/dvh_points[0:,1].max(), dvh_points[0:,0], bounds_error=False)
+            self.add(beam_on_time, v2d)
+        else:
+            self.add(beam_on_time, None)
+
