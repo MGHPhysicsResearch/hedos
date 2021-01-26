@@ -39,7 +39,7 @@ class TimeDependentMarkovChain:
         """
 
         # initialize steps
-        steps = np.zeros(n_steps)
+        steps = np.zeros(n_steps, dtype=np.uint8)
         
         for i in range(n_steps):
             # proceed step-by-step
@@ -50,7 +50,7 @@ class TimeDependentMarkovChain:
             else:
                 t += dt
             
-            steps[i] = c
+            steps[i] = np.uint8(c)
         return steps
             
     

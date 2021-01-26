@@ -66,10 +66,13 @@ dose.add( 10, lambda x: 5) #next  10 sec, 5 Gy uniform
 ```
 
 #### 5. Apply tDVH to blood path
+tDVH can be applied to multiple organ and different time points
 ```python
 model.name  # to choose an organ where the dose is delivered, 0 : brain, 19: liver
-blood_dose = bDVH()
-blood_dose.compute(blood, dose, 19, beam_start=0)
+blood_dose = bDVH(blood.df, blood.dt)
+blood_dose.add_dose(dose, 19, beam_start=0)
+blood_dose.add_dose(dose, 19, beam_start=4)
+blood_dose.add_dose(dose, 0, beam_start=0)  #add dose to Brain
 hist(blood_dose.dose) # Draw your blood DVH (differential)
 ```
 

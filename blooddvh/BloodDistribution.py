@@ -14,12 +14,12 @@ has path characterizations, e.g., mean transition time,
 class BloodDistribution:
     __slots__ = ["df", "names", "volumes", "dt", "tv","tt", "ttd", "mtt","rt", "rtd", "mrt", "scales", "shapes"]
     def __init__(self):
-        self.tt   = []
-        self.ttd  = []
-        self.mtt  = []
-        self.rt   = []
-        self.rtd  = []
-        self.mrt  = []
+        self.tt   = {}
+        self.ttd  = {}
+        self.mtt  = {}
+        self.rt   = {}
+        self.rtd  = {}
+        self.mrt  = {}
         self.tv   = [] 
         self.dt   = 0
         self.df   = None
@@ -28,7 +28,7 @@ class BloodDistribution:
         """
         Generate a blood distribution from a pre-built markov chain, e.g., from Compartment model
         """
-        self.df      = pd.DataFrame(0, index=np.array(range(nb_samples)), columns=np.array(range(nb_steps)))
+        self.df      = pd.DataFrame(0, index=np.array(range(nb_samples)), columns=np.array(range(nb_steps)), dtype=np.uint8)
         self.names   = names
         self.volumes = volumes
         self.dt      = dt
@@ -46,7 +46,7 @@ class BloodDistribution:
         """
         Generate a blood distribution from a pre-built markov chain using Weibull distribution, e.g., from Compartment model
         """
-        self.df      = pd.DataFrame(0, index=np.array(range(nb_samples)), columns=np.array(range(nb_steps)))
+        self.df      = pd.DataFrame(0, index=np.array(range(nb_samples)), columns=np.array(range(nb_steps)), dtype=np.uint8)
         self.names   = names
         self.volumes = volumes
         self.dt      = dt
@@ -70,19 +70,18 @@ class BloodDistribution:
         Save blood path to excel & tab name
         - 
         """
-
         fmode   = 'a' if path.exists(excel_file) else 'w'
         writer = pd.ExcelWriter(excel_file, mode=fmode)
         
         master = pd.DataFrame(index=['names', 'volumes','scales','shapes', 'dt_sec'], columns=range(len(self.volumes)))
-        master.loc['names']     = self.names
-        master.loc['volumes']   = self.volumes
-        master.loc['scales']    = self.scales
-        master.loc['shapes']    = self.shapes
-        master.loc['dt_sec',0]  = self.dt
-        master.loc['samples',0] = self.df.shape[0]
-        master.loc['steps',0]   = self.df.shape[1]
-        master.loc['path_file',0] = tab_name + "." + ext
+        master.loc['names']        = self.names
+        master.loc['volumes']      = self.volumes
+        master.loc['scales']       = self.scales
+        master.loc['shapes']       = self.shapes
+        master.loc['dt_sec', 0]    = self.dt
+        master.loc['samples', 0]   = self.df.shape[0]
+        master.loc['steps', 0]     = self.df.shape[1]
+        master.loc['path_file', 0] = tab_name + "." + ext
         i = -1*excel_file[::-1].find("/")
         self.df.values.astype('uint8').tofile( excel_file[:i] + tab_name + "." + ext )
         
@@ -115,10 +114,13 @@ class BloodDistribution:
         inverse : to calculate distance between enters 
         """
         bp_in_compartment = []
+        
         for i, row in self.df.iterrows():
+            
             c = self.df.iloc[i].values == compartment_id 
             np.concatenate(([c[0]], c[:-1] != c[1:], [True]))
             d = np.diff(np.where(np.concatenate(([c[0]], c[:-1] != c[1:], [True])))[0])[::2]
+            
             if np.size(d) > 0 : bp_in_compartment.append(d)
         return bp_in_compartment
 
@@ -129,49 +131,47 @@ class BloodDistribution:
         To   [2, 2] ->  a BP returns to compartment "1" for 2 times with their distance of 2, respectively.
         """
         distances_compartment = []
+
         for i, row in self.df.iterrows():
-            f0 = 0
-            f1 = 0
-            for v in range(self.df.shape[1]):
-                if self.df.iloc[i].values[v] == compartment_id :
-                    f0 = v
-                    break
-            for v in reversed(range(self.df.shape[1])):
-                if self.df.iloc[i].values[v] == compartment_id :
-                    f1 = v
-                    break
-            if f0 >= f1 :
-                continue
-                
-            c = self.df.iloc[i].values[f0:f1] != compartment_id 
+            c = row.values != compartment_id 
             np.concatenate(([c[0]], c[:-1] != c[1:], [True]))
             d = np.diff(np.where(np.concatenate(([c[0]], c[:-1] != c[1:], [True])))[0])[::2]
+            
+            if row.values[0]  != compartment_id :
+                d = d[1:]
+            if row.values[-1] != compartment_id :
+                d = d[:-1]
             if np.size(d) > 0 : distances_compartment.append(d)
             
         return distances_compartment
 
-    def transition_time(self):
+    def transition_time(self, names=[]):
         """
         Calculate transition time (tt), tt-distribution(ttd), and mean tt (mtt)
         """
-        for i in self.names :
+        if len(names) == 0 :
+            names = self.names
+        
+        for i in names :
             t = self.count_consecutives(self.names.index(i))
             l = list(flatten(t))
-            self.tt.append( t )
-            self.ttd.append( l )
-            self.mtt.append( [np.mean(l), np.std(l)] )
+            self.tt[i]  = t
+            self.ttd[i] = l
+            self.mtt[i] = [np.mean(l), np.std(l)]
 
-    def recurrence_time(self):
+    def recurrence_time(self, names=[]):
         """
         Calculate recurrence time (rt), rt-distribution(rtd), and mean rt (mrt)
         """
-        for i in self.names :
+        if len(names) == 0 :
+            names = self.names
+
+        for i in names :
             t = self.count_distances(self.names.index(i))
             l = list(flatten(t))
-            self.rt.append( t )
-            self.rtd.append( l )
-            self.mrt.append( [np.mean(l), np.std(l)] )
-
+            self.rt[i]  = t
+            self.rtd[i] = l
+            self.mrt[i] = [np.mean(l), np.std(l)]
             
     def temporal_volume(self):
         """
