@@ -63,10 +63,6 @@ class CompartmentModel :
         shapes_two = 2.0 * np.ones(self.size)
         self.markov_weibull  = TimeDependentMarkovChain(self.prob, self.scales, shapes_two)
 
-        # weibull0 is expected to be closer to pure Markov
-        shapes_one = np.ones(self.size)
-        self.markov_weibull0 = TimeDependentMarkovChain(self.prob, self.scales, shapes_one)
-
     def desc(self):
         # getting different graph attributes 
         print("Total number of nodes: ", int(self.G.number_of_nodes())) 
