@@ -29,7 +29,7 @@ CompartmentModel reads in organ's transition flow and generate transition networ
 BloodDistribution receives Markov model from CompartmentModel and produces blood particle paths. It can save the generated paths and read back.
 tDVH stores DVH as a function of time.
 bDVH computes blood dose by applying tDVH to BloodDistribution.
-<img src="figures/diagram.png">
+<img src="figures/blood_diagram_hedos.png">
 
 ```python
 
