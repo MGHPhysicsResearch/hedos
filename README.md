@@ -1,4 +1,5 @@
 # HEDOS : Hematological Dose
+<img src="figures/logo.png">
 
 
 ## Installation
