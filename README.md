@@ -1,11 +1,11 @@
-# blood-dvh
-Blood DVH 
+# HEDOS : Hematological Dose
+
 
 ## Installation
 
 Checkout the python source code
 ```bash
-$ git clone https://github.com/mghro/blood-dvh.git git
+$ git clone https://github.com/mghro/hedos.git git
 
 ```
 Install dependent packages
@@ -86,5 +86,4 @@ hist(blood_dose.dose) # Draw your blood DVH (differential)
 - Harald Paganetti
 
 ## Acknowledgements
-- R01
-- R21
+This work was supported by R21 CA248118 (A Computational Method to Calculate the Radiation Dose to Circulating Lymphocytes) and R01 CA248901 (Developing whole-body computational phantoms for blood dosimetry to model the impact of radiation on the immune system).
