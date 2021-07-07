@@ -82,6 +82,7 @@ hist(blood_dose.dose) # Draw your blood DVH (differential)
 ## Team
 - Jungwook Shin
 - Stella Xing
+- Lucas McCullum 
 - Clemens Grassberger
 - Harald Paganetti
 
