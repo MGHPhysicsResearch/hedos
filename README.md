@@ -87,4 +87,6 @@ hist(blood_dose.dose) # Draw your blood DVH (differential)
 - Harald Paganetti
 
 ## Acknowledgements
-This work was supported by R21 CA248118 (A Computational Method to Calculate the Radiation Dose to Circulating Lymphocytes) and R01 CA248901 (Developing whole-body computational phantoms for blood dosimetry to model the impact of radiation on the immune system).
+This work was supported by 
+- R21 CA248118 : A Computational Method to Calculate the Radiation Dose to Circulating Lymphocytes
+- R01 CA248901 : Developing whole-body computational phantoms for blood dosimetry to model the impact of radiation on the immune system
