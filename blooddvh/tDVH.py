@@ -44,8 +44,8 @@ class tDVH:
         beam_on_time : delivery time of this dvh
         2d-ndarray   : 2D- dose and probability
                        x-axis dose : dose (Gy), 
-                       y-axis : volume (0.0 - 1.0) scale
-        max_value    : value to normalize to scale volume (0.0-1.0)
+                       y-axis : volume (0.0 - 100.0%) 
+        max_value    : value to normalize volume of DVH to 0.0-1.0 scale
         """
         if dvh_points.shape != (0,):
             v2d = interpolate.interp1d(dvh_points[0:,1]/max_value, dvh_points[0:,0], fill_value=(0.0, 0.0), bounds_error=False)
