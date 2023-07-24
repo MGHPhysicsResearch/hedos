@@ -93,6 +93,7 @@ plt.ylabel('# of Events', fontsize=16)
 ### 6. Further information (see the [test notebook](tests/test.ipynb) for more)
 
 ## Team
+- Chris Beekman
 - Jungwook Shin
 - Stella Xing
 - Lucas McCullum
