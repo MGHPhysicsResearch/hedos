@@ -55,20 +55,3 @@ def blood_dose_distribution(simulation_params, patient_params, treatment_params)
 
     plot_dose_distribution(blood_dose_total, dose_contributions)
     # ============================================================== #
-
-    from scipy.stats import wasserstein_distance
-
-    max_val = np.max(blood_dose_total.dose)
-    step_size = max_val / 1000
-    weights, bins = np.histogram(blood_dose_total.dose,
-                                 bins=np.linspace(0, max_val+step_size, 1002),
-                                 density=True)
-    values = bins[:-1]
-    weights_ref = np.zeros_like(weights)
-    weights_ref[0] = 1
-
-    w = wasserstein_distance(values, values, weights_ref, weights)
-    w2 = np.sum((1 - np.cumsum(weights * step_size)) * step_size)
-    print('Wasserstein distance: {:.3f}'.format(w))
-    print('Wasserstein distance: {:.3f}'.format(w2))
-    print('Mean dose: {:.3f}'.format(np.mean(blood_dose_total.dose)))

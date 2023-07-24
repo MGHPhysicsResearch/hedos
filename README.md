@@ -72,4 +72,5 @@ This work was supported by:
 
 ## Publications
 
-Shin J, Xing S, McCullum L, et al. HEDOS-a computational tool to assess radiation dose to circulating blood cells during external beam radiotherapy based on whole-body blood flow simulations. Phys Med Biol. 2021;66(16):10.1088/1361-6560/ac16ea. Published 2021 Aug 3. doi:10.1088/1361-6560/ac16ea
+- 
+- Shin J, Xing S, McCullum L, et al. HEDOS-a computational tool to assess radiation dose to circulating blood cells during external beam radiotherapy based on whole-body blood flow simulations. Phys Med Biol. 2021;66(16):10.1088/1361-6560/ac16ea. Published 2021 Aug 3. doi:10.1088/1361-6560/ac16ea
