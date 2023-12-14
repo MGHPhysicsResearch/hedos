@@ -72,5 +72,5 @@ This work was supported by:
 
 ## Publications
 
-- Beekamn C, et al. A stochastic model of blood flow to calculate blood dose during radiotherapy. Phys Med Biol. 2023;68(22):10.1088/1361-6560/ad02d6. 
+- Beekman C, et al. A stochastic model of blood flow to calculate blood dose during radiotherapy. Phys Med Biol. 2023;68(22):10.1088/1361-6560/ad02d6. 
 - Shin J, Xing S, McCullum L, et al. HEDOS-a computational tool to assess radiation dose to circulating blood cells during external beam radiotherapy based on whole-body blood flow simulations. Phys Med Biol. 2021;66(16):10.1088/1361-6560/ac16ea. Published 2021 Aug 3. doi:10.1088/1361-6560/ac16ea
